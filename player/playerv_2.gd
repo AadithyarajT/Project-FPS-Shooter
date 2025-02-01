@@ -21,6 +21,7 @@ const SPEED: float = 5.0
 const JUMP_VELOCITY: float = 5.5
 
 func _ready() -> void:
+	Global.player = self
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	_speed = SPEED_DEFAULT
