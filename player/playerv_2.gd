@@ -31,6 +31,9 @@ func _ready() -> void:
 		print("Warning: CROUCH_SHAPECAST is not assigned in the Inspector.")
 
 func _physics_process(delta: float) -> void:
+	Global.debug.add_property("MSpeed", _speed, 2)
+	Global.debug.add_property("MRTwist",twist_input, 3)
+	Global.debug.add_property("MRPitch",pitch_input, 4)
 	# Add gravity
 	if not is_on_floor():
 		velocity.y -= 9.8 * delta  # Default Godot gravity
