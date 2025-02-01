@@ -30,7 +30,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 0.75, 0), Vector3(0, 0.058849, 0)]
+"values": [Vector3(0, 0.75, 0), Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_1oag1"]
@@ -66,14 +66,11 @@ _data = {
 "crouch": SubResource("Animation_b3g7e")
 }
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_u3fka"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_2dmtp"]
 
-[node name="player" type="CharacterBody3D" node_paths=PackedStringArray("ANIMATIONPLAYER", "CROUCH_SHAPECAST")]
-slide_on_ceiling = false
+[node name="player" type="CharacterBody3D" node_paths=PackedStringArray("ANIMATIONPLAYER")]
 script = ExtResource("1_qadw7")
 ANIMATIONPLAYER = NodePath("AnimationPlayer")
-CROUCH_SHAPECAST = NodePath("ShapeCast3D")
-CROUCH_SPEED = 6.6
 
 [node name="TwistPivot" type="Node3D" parent="."]
 
@@ -95,5 +92,6 @@ libraries = {
 }
 
 [node name="ShapeCast3D" type="ShapeCast3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.76412, 0)
-shape = SubResource("SphereShape3D_u3fka")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("SphereShape3D_2dmtp")
+target_position = Vector3(0, 0.5, 0)

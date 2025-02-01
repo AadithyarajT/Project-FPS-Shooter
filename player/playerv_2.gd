@@ -1,8 +1,15 @@
 extends CharacterBody3D
 
+@export var ANIMATIONPLAYER: AnimationPlayer
+@export var CROUCH_SHAPECAST: Node3D
+
+@export_range(5, 10, 0.1) var CROUCH_SPEED: float = 7.0
+
 var mouse_sensitivity := 0.001
 var twist_input := 0.0
 var pitch_input := 0.0
+
+var _is_crouching: bool = false
 
 @onready var twist_pivot := $TwistPivot
 @onready var pitch_pivot := $TwistPivot/PitchPivot
@@ -12,6 +19,12 @@ const JUMP_VELOCITY: float = 4.5
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	# Ensure CROUCH_SHAPECAST is assigned before calling add_exception()
+	if CROUCH_SHAPECAST:
+		CROUCH_SHAPECAST.add_exception(self)
+	else:
+		print("Warning: CROUCH_SHAPECAST is not assigned in the Inspector.")
 
 func _physics_process(delta: float) -> void:
 	# Add gravity
@@ -19,7 +32,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y -= 9.8 * delta  # Default Godot gravity
 
 	# Handle jump
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed("jump") and is_on_floor() and not _is_crouching:
 		velocity.y = JUMP_VELOCITY
 
 	# Camera movement
@@ -29,10 +42,7 @@ func _physics_process(delta: float) -> void:
 	twist_input = 0.0
 	pitch_input = 0.0
 
-	if Input.is_action_just_pressed("ui_cancel"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
-	# Handle movement
+	# movement control
 	var input_dir: Vector2 = Input.get_vector("move_left", "move_right", "move_front", "move_back")
 	var direction: Vector3 = (twist_pivot.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
@@ -51,3 +61,29 @@ func _unhandled_input(event: InputEvent) -> void:
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			twist_input = -event.relative.x * mouse_sensitivity
 			pitch_input = -event.relative.y * mouse_sensitivity
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("ui_cancel"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+	if event.is_action_pressed("crouch") and is_on_floor():
+		toggle_crouch()
+
+func toggle_crouch():
+	# Prevent crouch if  an obstacle above
+	if _is_crouching and CROUCH_SHAPECAST and CROUCH_SHAPECAST.is_colliding():
+		return
+
+	# Toggle crouch state
+	_is_crouching = not _is_crouching
+	crouching(_is_crouching)
+
+func crouching(state: bool):
+	if state:
+		ANIMATIONPLAYER.play("crouch", -1, CROUCH_SPEED)
+	else:
+		ANIMATIONPLAYER.play("crouch", -1, -CROUCH_SPEED)
+
+func _on_animation_player_animation_started(anim_name: StringName) -> void:
+	if anim_name == "crouch":
+		_is_crouching = not _is_crouching
