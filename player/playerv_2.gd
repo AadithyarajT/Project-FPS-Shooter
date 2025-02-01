@@ -2,9 +2,12 @@ extends CharacterBody3D
 
 @export var ANIMATIONPLAYER: AnimationPlayer
 @export var CROUCH_SHAPECAST: Node3D
+@export var SPEED_DEFAULT: float = 5.0
+@export var SPEED_CROUCH: float = 2.0
 
 @export_range(5, 10, 0.1) var CROUCH_SPEED: float = 7.0
 
+var _speed: float
 var mouse_sensitivity := 0.001
 var twist_input := 0.0
 var pitch_input := 0.0
@@ -15,11 +18,12 @@ var _is_crouching: bool = false
 @onready var pitch_pivot := $TwistPivot/PitchPivot
 
 const SPEED: float = 5.0
-const JUMP_VELOCITY: float = 4.5
+const JUMP_VELOCITY: float = 5.5
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
+	_speed = SPEED_DEFAULT
 	# Ensure CROUCH_SHAPECAST is assigned before calling add_exception()
 	if CROUCH_SHAPECAST:
 		CROUCH_SHAPECAST.add_exception(self)
@@ -47,11 +51,11 @@ func _physics_process(delta: float) -> void:
 	var direction: Vector3 = (twist_pivot.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 	if direction.length() > 0:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+		velocity.x = direction.x * _speed
+		velocity.z = direction.z * _speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, _speed)
+		velocity.z = move_toward(velocity.z, 0, _speed)
 
 	move_and_slide()
 
@@ -81,9 +85,18 @@ func toggle_crouch():
 func crouching(state: bool):
 	if state:
 		ANIMATIONPLAYER.play("crouch", -1, CROUCH_SPEED)
+		set_movement_speed("crouching")
 	else:
 		ANIMATIONPLAYER.play("crouch", -1, -CROUCH_SPEED)
+		set_movement_speed("default")
 
 func _on_animation_player_animation_started(anim_name: StringName) -> void:
 	if anim_name == "crouch":
 		_is_crouching = not _is_crouching
+
+func  set_movement_speed(state : String):
+	match state:
+		"default":
+			_speed = SPEED_DEFAULT
+		"crouching":
+			_speed = SPEED_CROUCH
