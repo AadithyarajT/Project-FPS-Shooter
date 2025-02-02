@@ -1,6 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://cap1xdud8s2ht"]
+[gd_scene load_steps=21 format=3 uid="uid://cap1xdud8s2ht"]
 
 [ext_resource type="PackedScene" uid="uid://66vrf7ylvtjx" path="res://worldenviroment/world_environment.tscn" id="2_b3wlf"]
+[ext_resource type="Script" path="res://player/player.gd" id="2_u4h0p"]
 [ext_resource type="Texture2D" uid="uid://wa8pma6xwgaa" path="res://worldenviroment/kloppenheim_06_puresky_4k.exr" id="3_nmvvp"]
 [ext_resource type="PackedScene" uid="uid://dnoq45yak7bje" path="res://player/playerv2.tscn" id="4_2reue"]
 
@@ -54,6 +55,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.313331, 0)
 
 [node name="player" parent="." instance=ExtResource("4_2reue")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.16066, 0)
+script = ExtResource("2_u4h0p")
 
 [node name="Node3D2" type="Node3D" parent="."]
 
