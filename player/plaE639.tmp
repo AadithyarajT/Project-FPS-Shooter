@@ -110,9 +110,9 @@ tracks/0/path = NodePath("TwistPivot/PitchPivot/Camera3D:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
-"points": PackedFloat32Array(0.075, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, -0.075, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0.075, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2.06667)
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.155451, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, -0.130046, -0.25, 0, 0.25, 0, 0.00157948, -0.25, 0, 0.25, 0, 0.148036, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.0162798, 0.5, 0.99074, 1.5, 1.99078, 2)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
@@ -121,9 +121,9 @@ tracks/1/path = NodePath("TwistPivot/PitchPivot/Camera3D:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
-"points": PackedFloat32Array(0.859925, -0.25, 0, 0.266667, -0.00741553, 0.75, -0.25, 0, 0.25, 0, 0.669, -0.25, 0, 0.25, 0, 0.75, -0.25, 0, 0.25, 0, 0.86, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.5, 1.06667, 1.5, 2.03333)
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(0.897003, -0.25, 0, 0.25, 0, 0.75, -0.25, 0, 0.133333, -0.0383852, 0.600382, -0.25, 0, 0.25, 0, 0.7524, -0.233333, -0.0537625, 0.25, 0, 0.90998, -0.25, 0, 0.25, 0, 0.75, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 0.933333, 1.46667, 1.98416, 2)
 }
 tracks/2/type = "bezier"
 tracks/2/imported = false
@@ -164,6 +164,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 rotation_order = 0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("CapsuleMesh_6x5ug")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -239,9 +240,8 @@ layout_mode = 2
 script = ExtResource("5_ibhaw")
 CURRENT_STATE = NodePath("IdlePlayerState")
 
-[node name="IdlePlayerState" type="Node" parent="PlayerStateMechine" node_paths=PackedStringArray("ANIMATION")]
+[node name="IdlePlayerState" type="Node" parent="PlayerStateMechine"]
 script = ExtResource("6_41xsn")
-ANIMATION = NodePath("../../AnimationPlayer")
 
 [node name="WalkingPlayerState" type="Node" parent="PlayerStateMechine" node_paths=PackedStringArray("ANIMATION")]
 script = ExtResource("7_j1mkc")
