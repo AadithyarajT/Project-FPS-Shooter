@@ -89,7 +89,6 @@ CROUCH_SPEED = 6.6
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-visible = false
 mesh = SubResource("CapsuleMesh_6x5ug")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

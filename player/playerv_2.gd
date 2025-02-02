@@ -1,5 +1,7 @@
 extends CharacterBody3D
-
+#3.25 e8
+@export var ACCELERATION : float = 0.1
+@export var DECELERACTION : float = 0.2
 @export var ANIMATIONPLAYER: AnimationPlayer
 @export var CROUCH_SHAPECAST: Node3D
 @export var SPEED_DEFAULT: float = 5.0
@@ -55,11 +57,11 @@ func _physics_process(delta: float) -> void:
 	var direction: Vector3 = (twist_pivot.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 	if direction.length() > 0:
-		velocity.x = direction.x * _speed
-		velocity.z = direction.z * _speed
+		velocity.x = lerp(velocity.x,direction.x * _speed, ACCELERATION)
+		velocity.z = lerp(velocity.z,direction.z * _speed, ACCELERATION)
 	else:
-		velocity.x = move_toward(velocity.x, 0, _speed)
-		velocity.z = move_toward(velocity.z, 0, _speed)
+		velocity.x = move_toward(velocity.x, 0, DECELERACTION)
+		velocity.z = move_toward(velocity.z, 0, DECELERACTION)
 
 	move_and_slide()
 
