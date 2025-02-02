@@ -6,11 +6,12 @@ extends CharacterBody3D
 @export var CROUCH_SHAPECAST: Node3D
 @export var SPEED_DEFAULT: float = 5.0
 @export var SPEED_CROUCH: float = 2.0
+@export var SPEED_SPRINTING : float = 20.0
 
 @export_range(5, 10, 0.1) var CROUCH_SPEED: float = 7.0
 
-var _speed: float
-var mouse_sensitivity := 0.001
+var _speed: float = 0.0
+var mouse_sensitivity := 0.005
 var twist_input := 0.0
 var pitch_input := 0.0
 
@@ -92,9 +93,11 @@ func crouching(state: bool):
 	if state:
 		ANIMATIONPLAYER.play("crouch", -1, CROUCH_SPEED)
 		set_movement_speed("crouching")
+		print("crouching")
 	else:
 		ANIMATIONPLAYER.play("crouch", -1, -CROUCH_SPEED)
 		set_movement_speed("default")
+		print("uncrouching")
 
 func _on_animation_player_animation_started(anim_name: StringName) -> void:
 	if anim_name == "crouch":
