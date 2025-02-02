@@ -1,8 +1,11 @@
 class_name IdlePlayerState
 extends State 
 
+@export var ANIMATION : AnimationPlayer
+
 func enter():
 	print("Entered Idle State")
+	ANIMATION.pause()
 
 func exit():
 	print("Exiting Idle State")
